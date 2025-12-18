@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODLY | تصميم مواقع ومتاجر إلكترونية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2DD4A8;
+            --primary-light: #5EEAD4;
+            --primary-dark: #14B8A6;
+            --bg-dark: #0A0A0A;
+            --bg-card: #111111;
+            --bg-card-hover: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A1A1AA;
+            --gradient-primary: linear-gradient(135deg, #2DD4A8 0%, #14B8A6 50%, #0D9488 100%);
+            --gradient-glow: radial-gradient(ellipse at center, rgba(45, 212, 168, 0.15) 0%, transparent 70%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        .english {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Animated Background */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .bg-pattern::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: var(--gradient-glow);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-pattern::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: var(--gradient-glow);
+            border-radius: 50%;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.05); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+
+        /* Grain Texture Overlay */
+        .grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(45, 212, 168, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(45, 212, 168, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(45, 212, 168, 0.4);
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 5% 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(45, 212, 168, 0.1);
+            border: 1px solid rgba(45, 212, 168, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero h1 .highlight {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(45, 212, 168, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(45, 212, 168, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+
+        /* Geometric Decoration */
+        .hero-decoration {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .hero-decoration.left {
+            left: 5%;
+            top: 20%;
+        }
+
+        .hero-decoration.right {
+            right: 5%;
+            bottom: 20%;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(45, 212, 168, 0.2);
+            background: var(--bg-card-hover);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(45, 212, 168, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            background: linear-gradient(135deg, rgba(45, 212, 168, 0.1) 0%, rgba(20, 184, 166, 0.05) 100%);
+            border: 1px solid rgba(45, 212, 168, 0.2);
+            border-radius: 30px;
+            padding: 4rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Portfolio Section */
+        .portfolio {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 16/10;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.02);
+            border-color: rgba(45, 212, 168, 0.3);
+        }
+
+        .portfolio-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(45, 212, 168, 0.05) 100%);
+            font-size: 4rem;
+            opacity: 0.3;
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+
+        .portfolio-overlay h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-overlay p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        
+        .about {
+            padding: 100px 5%;
+            background: var(--bg-dark);
+        }
+
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-text {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .about-text strong {
+            color: var(--primary);
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .about-feature {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(45, 212, 168, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .about-feature:hover {
+            transform: translateY(-5px);
+            border-color: rgba(45, 212, 168, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .about-feature h4 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .about-feature p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Process Section */
+        .process {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .process-steps {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        .process-step {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .process-step:hover {
+            border-color: rgba(45, 212, 168, 0.2);
+            transform: translateX(-10px);
+        }
+
+        .step-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            min-width: 60px;
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        a.pricing-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'الأكثر طلباً';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 6px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(45, 212, 168, 0.3);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        
+        .pricing-badge {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .pricing-name {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .pricing-desc {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .pricing-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .pricing-card.featured .pricing-btn {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+        }
+
+        .pricing-card:not(.featured) .pricing-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+        }
+
+        .pricing-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .testimonial-stars {
+            color: #FFD700;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--bg-dark);
+        }
+
+        .author-info h5 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info span {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            background: var(--bg-card);
+            border-radius: 30px;
+            padding: 4rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-method-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(45, 212, 168, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #25D366;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background: var(--bg-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            color: var(--text-primary);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            resize: none;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(45, 212, 168, 0.4);
+        }
+
+        
+        /* Pricing Modal */
+        .pricing-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .pricing-modal.active {
+            display: flex;
+        }
+
+        .pricing-modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid rgba(45, 212, 168, 0.2);
+            animation: modalSlideUp 0.3s ease;
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .modal-badge {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .modal-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .modal-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .modal-price span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-desc {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .modal-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .modal-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-features li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            color: var(--bg-dark);
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* Mobile Only & Desktop Only */
+        .mobile-details-btn {
+            display: none;
+        }
+
+        .desktop-only {
+            display: block;
+        }
+
+        ul.desktop-only {
+            display: block;
+        }
+
+        
+        a.pricing-btn {
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        a.mobile-details-btn {
+            text-decoration: none;
+        }
+
+        
+        /* Package Pages */
+        .package-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            z-index: 10000;
+            overflow-y: auto;
+        }
+
+        .package-page.active {
+            display: block;
+        }
+
+        .package-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .package-badge {
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .package-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(45, 212, 168, 0.2);
+        }
+
+        .package-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .package-price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .package-price span {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .package-desc {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .package-features li {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .package-features li::before {
+            content: "✓";
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .whatsapp-order-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: #25D366;
+            color: white;
+            padding: 18px 30px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-order-btn:hover {
+            background: #128C7E;
+            transform: scale(1.02);
+        }
+
+        .whatsapp-order-btn svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 5% 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            line-height: 1.8;
+        }
+
+        .footer-links h4 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .stats-container {
+                padding: 2rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .process-step {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            /* تحسين الأسعار للجوال */
+            /* الأسعار - عرض أفقي 3 جنب بعض */
+            .pricing-grid {
+                display: flex;
+                gap: 12px;
+                padding: 0 15px;
+                overflow-x: visible;
+            }
+
+            a.pricing-card {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .pricing-card {
+                flex: 1;
+                min-width: 0;
+                padding: 25px 15px;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-badge {
+                font-size: 0.75rem;
+                padding: 5px 12px;
+                margin-bottom: 10px;
+            }
+
+            .pricing-name {
+                font-size: 1rem;
+                margin-bottom: 10px;
+                font-weight: 700;
+            }
+
+            .pricing-price {
+                font-size: 1.6rem;
+                margin-bottom: 8px;
+                font-weight: 800;
+            }
+
+            .pricing-price span {
+                font-size: 0.8rem;
+            }
+
+            .pricing-desc {
+                font-size: 0.8rem;
+                margin-bottom: 15px;
+                min-height: 40px;
+            }
+
+            .desktop-only {
+                display: none !important;
+            }
+
+            .mobile-details-btn {
+                display: block;
+                width: 100%;
+                padding: 12px 10px;
+                font-size: 0.9rem;
+                background: var(--gradient-primary);
+                border: none;
+                border-radius: 10px;
+                color: var(--bg-dark);
+                font-weight: 700;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            .pricing-card.featured .mobile-details-btn {
+                background: white;
+                color: var(--bg-dark);
+            }
+
+            .contact-container {
+                padding: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="grain"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">
+                <img src="https://f.top4top.io/p_3639mqpqg1.png" alt="CODLY Logo">
+            </div>
+            <span class="logo-text">CODLY</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#services">خدماتنا</a></li>
+            
+            <li><a href="#pricing">الأسعار</a></li>
+            <li><a href="#contact">تواصل معنا</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">ابدأ مشروعك</a>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">متاحون للمشاريع الجديدة</div>
+            <h1>نصمم لك <span class="highlight">موقعك</span> و<span class="highlight">متجرك</span> الإلكتروني باحترافية</h1>
+            <p>نحول أفكارك إلى واقع رقمي مذهل. تصاميم عصرية، تجربة مستخدم استثنائية، ونتائج تفوق التوقعات.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn-primary">
+                    ابدأ مشروعك الآن
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#about" class="btn-secondary">
+                    تعرف علينا
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <span class="section-tag">خدماتنا</span>
+            <h2 class="section-title">حلول رقمية متكاملة</h2>
+            <p class="section-subtitle">نقدم مجموعة شاملة من الخدمات لتحقيق نجاحك الرقمي</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🛒</div>
+                <h3>متاجر إلكترونية</h3>
+                <p>متاجر احترافية متكاملة مع بوابات دفع متعددة، نظام إدارة مخزون، وتجربة شراء سلسة تزيد مبيعاتك.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💻</div>
+                <h3>مواقع تعريفية</h3>
+                <p>مواقع أنيقة تعكس هوية علامتك التجارية وتجذب عملاءك المستهدفين بتصميم عصري وسرعة فائقة.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📱</div>
+                <h3>تطبيقات ويب</h3>
+                <p>تطبيقات ويب تفاعلية تعمل على جميع الأجهزة بسلاسة، مع لوحات تحكم متقدمة وتجربة مستخدم مميزة.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎨</div>
+                <h3>تصميم UI/UX</h3>
+                <p>تصاميم واجهات مستخدم جذابة مع تجربة استخدام مدروسة تحول الزوار إلى عملاء دائمين.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔍</div>
+                <h3>تحسين محركات البحث</h3>
+                <p>استراتيجيات SEO متقدمة لضمان ظهور موقعك في نتائج البحث الأولى وزيادة الزيارات العضوية.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🛠️</div>
+                <h3>صيانة ودعم</h3>
+                <p>دعم فني مستمر وتحديثات دورية لضمان عمل موقعك بكفاءة عالية على مدار الساعة.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">120+</div>
+                <div class="stat-label">مشروع منجز</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100/100</div>
+                <div class="stat-label">رضا العملاء</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1.5+</div>
+                <div class="stat-label">سنة خبرة</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">دعم فني</div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="section-header">
+            <span class="section-tag">تعرف علينا</span>
+            <h2 class="section-title">من نحن</h2>
+            <p class="section-subtitle">فريق شغوف بتحويل أفكارك إلى واقع رقمي مميز</p>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <p>نحن في <strong>CODLY</strong> نؤمن بأن كل مشروع يستحق موقعاً إلكترونياً يعكس هويته ويحقق أهدافه. نجمع بين الإبداع في التصميم والاحترافية في التنفيذ لنقدم لك تجربة رقمية استثنائية.</p>
+                <p>نعمل بشغف لنحول رؤيتك إلى حقيقة، مع التزامنا بأعلى معايير الجودة والدعم المستمر لضمان نجاح مشروعك.</p>
+            </div>
+            <div class="about-features">
+                <div class="about-feature">
+                    <span class="feature-icon">🎯</span>
+                    <h4>رؤية واضحة</h4>
+                    <p>نفهم احتياجاتك ونحولها لخطة عمل</p>
+                </div>
+                <div class="about-feature">
+                    <span class="feature-icon">💡</span>
+                    <h4>إبداع متجدد</h4>
+                    <p>تصاميم عصرية تواكب أحدث التقنيات</p>
+                </div>
+                <div class="about-feature">
+                    <span class="feature-icon">🤝</span>
+                    <h4>شراكة حقيقية</h4>
+                    <p>نعمل معك كفريق واحد لتحقيق النجاح</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="section-header">
+            <span class="section-tag">آلية العمل</span>
+            <h2 class="section-title">كيف ننجز مشروعك</h2>
+            <p class="section-subtitle">خطوات واضحة ومنظمة لضمان تسليم مشروعك بأعلى جودة</p>
+        </div>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>الاستشارة والتحليل</h3>
+                    <p>نستمع لأفكارك ونحلل احتياجاتك لفهم رؤيتك وأهدافك بشكل كامل</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>التصميم والنموذج</h3>
+                    <p>نصمم نموذج أولي تفاعلي للموقع لمراجعته والموافقة عليه قبل البدء</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>التطوير والبرمجة</h3>
+                    <p>نحول التصميم إلى موقع حقيقي بأحدث التقنيات مع تحديثات مستمرة</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h3>الإطلاق والدعم</h3>
+                    <p>نطلق موقعك ونقدم دعم فني مستمر لضمان نجاحه</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <span class="section-tag">الأسعار</span>
+            <h2 class="section-title">باقات تناسب الجميع</h2>
+            <p class="section-subtitle">اختر الباقة المناسبة لاحتياجاتك وميزانيتك</p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-name">الباقة المتقدمة</div>
+                <div class="pricing-price">5,000 <span>ر.س</span></div>
+                <p class="pricing-desc">للمشاريع الكبيرة</p>
+                <a href="javascript:void(0)" onclick="openPackagePage('advanced')" class="pricing-btn mobile-details-btn">المزيد من التفاصيل</a>
+                <ul class="pricing-features desktop-only">
+                    <li>صفحات غير محدودة</li>
+                    <li>تطبيق ويب مخصص</li>
+                    <li>تكاملات API</li>
+                    <li>استضافة سنة مجاناً</li>
+                    <li>تدريب على الاستخدام</li>
+                    <li>دعم سنة كاملة</li>
+                </ul>
+                <a href="javascript:void(0)" onclick="openPackagePage('advanced')" class="pricing-btn desktop-only">اختر الباقة</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-name">الباقة الاحترافية</div>
+                <div class="pricing-price">1,200 <span>ر.س</span></div>
+                <p class="pricing-desc">للأعمال المتنامية</p>
+                <a href="javascript:void(0)" onclick="openPackagePage('pro')" class="pricing-btn mobile-details-btn">المزيد من التفاصيل</a>
+                <ul class="pricing-features desktop-only">
+                    <li>تصميم 15 صفحة</li>
+                    <li>متجر إلكتروني كامل</li>
+                    <li>لوحة تحكم متقدمة</li>
+                    <li>تحسين SEO متقدم</li>
+                    <li>بوابات دفع متعددة</li>
+                    <li>دعم 90 يوم</li>
+                </ul>
+                <a href="javascript:void(0)" onclick="openPackagePage('pro')" class="pricing-btn desktop-only">اختر الباقة</a>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-badge">الأكثر مبيعاً</div>
+                <div class="pricing-name">الباقة الأساسية</div>
+                <div class="pricing-price">250 <span>ر.س</span></div>
+                <p class="pricing-desc">للمشاريع الصغيرة</p>
+                <a href="javascript:void(0)" onclick="openPackagePage('basic')" class="pricing-btn mobile-details-btn">المزيد من التفاصيل</a>
+                <ul class="pricing-features desktop-only">
+                    <li>تصميم 5 صفحات</li>
+                    <li>تصميم متجاوب</li>
+                    <li>نموذج تواصل</li>
+                    <li>تحسين SEO أساسي</li>
+                    <li>دعم 30 يوم</li>
+                </ul>
+                <a href="javascript:void(0)" onclick="openPackagePage('basic')" class="pricing-btn desktop-only">اختر الباقة</a>
+            </div>
+        </div>
+    </section>
+    </div>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-header">
+            <span class="section-tag">آراء العملاء</span>
+            <h2 class="section-title">ماذا يقول عملاؤنا</h2>
+            <p class="section-subtitle">تجارب حقيقية من عملاء سعداء</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"تجربة رائعة من البداية للنهاية. الفريق محترف جداً والنتيجة فاقت توقعاتي. متجري الآن يعمل بشكل ممتاز والمبيعات في ازدياد."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">م</div>
+                    <div class="author-info">
+                        <h5>محمد العتيبي</h5>
+                        <span>صاحب متجر إلكتروني</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"أفضل استثمار عملته لعملي. الموقع جذاب واحترافي وسهل الاستخدام. الدعم الفني سريع ومتعاون. أنصح بهم بشدة."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">س</div>
+                    <div class="author-info">
+                        <h5>سارة الشهري</h5>
+                        <span>مديرة تسويق</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"التزام بالمواعيد وجودة عالية في التنفيذ. فهموا رؤيتي وحولوها لموقع يعكس هوية شركتي بشكل مثالي."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">أ</div>
+                    <div class="author-info">
+                        <h5>أحمد الدوسري</h5>
+                        <span>رائد أعمال</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>لنبدأ مشروعك معاً</h2>
+                <p>جاهزون لتحويل فكرتك إلى واقع رقمي مذهل. تواصل معنا الآن واحصل على استشارة مجانية.</p>
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="contact-method-icon">📱</div>
+                        <div>
+                            <strong>الجوال</strong><br>
+                            <span class="english" dir="ltr">057 165 3884</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/966571653884" target="_blank" class="whatsapp-btn">
+                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        تواصل معنا مباشرة
+                    </a>
+                </div>
+            </div>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" placeholder="أدخل اسمك">
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="email" placeholder="أدخل بريدك الإلكتروني">
+                </div>
+                <div class="form-group">
+                    <label>نوع المشروع</label>
+                    <input type="text" placeholder="متجر إلكتروني، موقع تعريفي...">
+                </div>
+                <div class="form-group">
+                    <label>تفاصيل المشروع</label>
+                    <textarea placeholder="أخبرنا المزيد عن مشروعك..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">إرسال الطلب</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <img src="https://f.top4top.io/p_3639mqpqg1.png" alt="CODLY Logo">
+                    </div>
+                    <span class="logo-text">CODLY</span>
+                </div>
+                <p>نصمم ونطور مواقع ومتاجر إلكترونية احترافية تساعد أعمالك على النمو والتميز في العالم الرقمي.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">𝕏</a>
+                    <a href="#" class="social-link">in</a>
+                    <a href="#" class="social-link">📸</a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>روابط سريعة</h4>
+                <ul>
+                    <li><a href="#services">خدماتنا</a></li>
+                    
+                    <li><a href="#pricing">الأسعار</a></li>
+                    <li><a href="#contact">تواصل معنا</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>خدماتنا</h4>
+                <ul>
+                    <li><a href="#">متاجر إلكترونية</a></li>
+                    <li><a href="#">مواقع تعريفية</a></li>
+                    <li><a href="#">تطبيقات ويب</a></li>
+                    <li><a href="#">تصميم UI/UX</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>الدعم</h4>
+                <ul>
+                    <li><a href="#">الأسئلة الشائعة</a></li>
+                    <li><a href="#">سياسة الخصوصية</a></li>
+                    <li><a href="#">الشروط والأحكام</a></li>
+                    <li><a href="#">اتصل بنا</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 <span class="english">CODLY</span>. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.padding = '1rem 5%';
+                nav.style.background = 'rgba(10, 10, 10, 0.95)';
+            } else {
+                nav.style.padding = '1.5rem 5%';
+                nav.style.background = 'rgba(10, 10, 10, 0.8)';
+            }
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .portfolio-item, .process-step, .pricing-card, .testimonial-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('شكراً لتواصلك! سنرد عليك في أقرب وقت.');
+        });
+
+        // Counter animation for stats
+        const animateCounter = (element, target) => {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + (element.dataset.suffix || '');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + (element.dataset.suffix || '');
+                }
+            }, 30);
+        };
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const text = stat.textContent;
+                        const number = parseInt(text);
+                        if (!isNaN(number)) {
+                            stat.dataset.suffix = text.replace(number, '');
+                            animateCounter(stat, number);
+                        }
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statsObserver.observe(document.querySelector('.stats-container'));
+
+        // Pricing Modal Data
+        const pricingData = {
+            advanced: {
+                name: 'الباقة المتقدمة',
+                price: '5,000',
+                desc: 'للمشاريع الكبيرة والمؤسسات',
+                badge: null,
+                features: [
+                    'صفحات غير محدودة',
+                    'تطبيق ويب مخصص',
+                    'تكاملات API',
+                    'استضافة سنة مجاناً',
+                    'تدريب على الاستخدام',
+                    'دعم سنة كاملة',
+                    'تصميم حصري 100%',
+                    'لوحة تحكم متقدمة'
+                ]
+            },
+            pro: {
+                name: 'الباقة الاحترافية',
+                price: '1,200',
+                desc: 'الأفضل للأعمال المتنامية',
+                badge: null,
+                features: [
+                    'تصميم 15 صفحة',
+                    'متجر إلكتروني كامل',
+                    'لوحة تحكم متقدمة',
+                    'تحسين SEO متقدم',
+                    'بوابات دفع متعددة',
+                    'دعم 90 يوم',
+                    'تصميم متجاوب',
+                    'شهادة SSL مجانية'
+                ]
+            },
+            basic: {
+                name: 'الباقة الأساسية',
+                price: '250',
+                desc: 'مثالية للمشاريع الصغيرة والبدايات',
+                badge: 'الأكثر مبيعاً',
+                features: [
+                    'تصميم 5 صفحات',
+                    'تصميم متجاوب',
+                    'نموذج تواصل',
+                    'تحسين SEO أساسي',
+                    'دعم 30 يوم',
+                    'سرعة تحميل عالية'
+                ]
+            }
+        };
+
+        function openPricingModal(plan) {
+            const data = pricingData[plan];
+            const modal = document.getElementById('pricingModal');
+            const content = document.getElementById('modalContent');
+            
+            let badgeHtml = data.badge ? `<div class="modal-badge">${data.badge}</div>` : '';
+            let featuresHtml = data.features.map(f => `<li>${f}</li>`).join('');
+            
+            content.innerHTML = `
+                ${badgeHtml}
+                <div class="modal-name">${data.name}</div>
+                <div class="modal-price">${data.price} <span>ر.س</span></div>
+                <p class="modal-desc">${data.desc}</p>
+                <ul class="modal-features">${featuresHtml}</ul>
+                <a href="https://wa.me/966571653884?text=أرغب في الاستفسار عن ${data.name}" class="modal-btn" target="_blank">اطلب الآن عبر واتساب</a>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePricingModal() {
+            document.getElementById('pricingModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on background click
+        document.getElementById('pricingModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePricingModal();
+            }
+        });
+    </script>
+
+    <!-- صفحات الباقات الداخلية -->
+    <div class="package-page" id="page-basic">
+        <div class="package-container">
+            <a href="#pricing" class="back-btn" onclick="closePackagePage('basic')">→ رجوع للرئيسية</a>
+            <div class="package-badge">الأكثر مبيعاً</div>
+            <div class="package-card">
+                <div class="package-name">الباقة الأساسية</div>
+                <div class="package-price">250 <span>ر.س</span></div>
+                <p class="package-desc">مثالية للمشاريع الصغيرة والبدايات</p>
+                <ul class="package-features">
+                    <li>تصميم 5 صفحات</li>
+                    <li>تصميم متجاوب مع الجوال</li>
+                    <li>نموذج تواصل</li>
+                    <li>تحسين SEO أساسي</li>
+                    <li>دعم فني 30 يوم</li>
+                    <li>سرعة تحميل عالية</li>
+                    <li>شهادة SSL مجانية</li>
+                </ul>
+                <a href="https://wa.me/966571653884?text=أرغب في طلب الباقة الأساسية - 250 ر.س" class="whatsapp-order-btn" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    اطلب الآن عبر واتساب
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="package-page" id="page-pro">
+        <div class="package-container">
+            <a href="#pricing" class="back-btn" onclick="closePackagePage('pro')">→ رجوع للرئيسية</a>
+            <div class="package-card">
+                <div class="package-name">الباقة الاحترافية</div>
+                <div class="package-price">1,200 <span>ر.س</span></div>
+                <p class="package-desc">الأفضل للأعمال المتنامية</p>
+                <ul class="package-features">
+                    <li>تصميم 15 صفحة</li>
+                    <li>متجر إلكتروني كامل</li>
+                    <li>لوحة تحكم متقدمة</li>
+                    <li>تحسين SEO متقدم</li>
+                    <li>بوابات دفع متعددة</li>
+                    <li>دعم فني 90 يوم</li>
+                    <li>تصميم متجاوب</li>
+                    <li>شهادة SSL مجانية</li>
+                    <li>ربط مع وسائل التواصل</li>
+                </ul>
+                <a href="https://wa.me/966571653884?text=أرغب في طلب الباقة الاحترافية - 1,200 ر.س" class="whatsapp-order-btn" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    اطلب الآن عبر واتساب
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="package-page" id="page-advanced">
+        <div class="package-container">
+            <a href="#pricing" class="back-btn" onclick="closePackagePage('advanced')">→ رجوع للرئيسية</a>
+            <div class="package-card">
+                <div class="package-name">الباقة المتقدمة</div>
+                <div class="package-price">5,000 <span>ر.س</span></div>
+                <p class="package-desc">للمشاريع الكبيرة والمؤسسات</p>
+                <ul class="package-features">
+                    <li>صفحات غير محدودة</li>
+                    <li>تطبيق ويب مخصص</li>
+                    <li>تكاملات API</li>
+                    <li>استضافة سنة مجاناً</li>
+                    <li>تدريب على الاستخدام</li>
+                    <li>دعم سنة كاملة</li>
+                    <li>تصميم حصري 100%</li>
+                    <li>لوحة تحكم متقدمة</li>
+                    <li>تقارير وإحصائيات</li>
+                    <li>نظام إدارة محتوى</li>
+                </ul>
+                <a href="https://wa.me/966571653884?text=أرغب في طلب الباقة المتقدمة - 5,000 ر.س" class="whatsapp-order-btn" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    اطلب الآن عبر واتساب
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPackagePage(pkg) {
+            document.getElementById('page-' + pkg).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePackagePage(pkg) {
+            document.getElementById('page-' + pkg).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+
+</body>
+</html>
